@@ -33,7 +33,7 @@ export default function LinksFilter() {
             // Use replace to avoid polluting browser history.
             // This triggers a re-render of the parent server component with new searchParams.
             router.replace(`${pathname}?${params.toString()}`);
-        }, 500); // Wait for 500ms after user stops typing
+        }, 400); // Wait for 400ms after user stops typing
 
         // Cleanup function to cancel the timeout if the component unmounts
         // or if the dependencies change before the timeout is reached.

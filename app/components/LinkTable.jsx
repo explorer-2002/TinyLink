@@ -4,6 +4,7 @@ import Link from "next/link";
 import LinksFilter from "./LinksFilter"; // Import the new client component
 import { FaEye } from "react-icons/fa";
 import DeleteLink from "./DeleteLink";
+import CopyButton from "./CopyButton";
 
 async function getLinks(searchParams) {
     try {
@@ -51,7 +52,7 @@ export default async function LinksTable({ searchParams }) {
             <>
                 <LinksFilter />
 
-                <div className="p-8 text-center text-gray-500">
+                <div className="w-full mx-auto p-3 text-center text-gray-600 text-2xl">
                     No links found
                 </div>
             </>
@@ -65,12 +66,12 @@ export default async function LinksTable({ searchParams }) {
             <LinksFilter />
 
             {/* Grid Table Header */}
-            <div className="grid grid-cols-5 gap-3 p-4 bg-gray-800 text-white rounded-t-lg font-semibold w-full">
-                <div>Short code</div>
-                <div>Target URL</div>
-                <div>Total Clicks</div>
-                <div>Last Clicked Time</div>
-                <div>Details</div>
+            <div className="grid grid-cols-[1fr_2fr_1fr_1fr_0.8fr] gap-3 p-4 bg-gray-800 text-white rounded-t-lg font-semibold w-full">
+                <div className="px-2">Short code</div>
+                <div className="px-2">Target URL</div>
+                <div className="px-2">Total Clicks</div>
+                <div className="px-2">Last Clicked Time</div>
+                <div className="px-2">Details</div>
             </div>
 
 
@@ -79,13 +80,13 @@ export default async function LinksTable({ searchParams }) {
                 {links?.data?.map((link, index) => (
                     <div
                         key={index}
-                        className="grid grid-cols-5 gap-3 p-3 border-b border-gray-200 last:border-b-0 hover:bg-gray-50 transition-colors"
+                        className="grid grid-cols-[1fr_2fr_1fr_1fr_0.8fr] gap-3 p-3 border-b border-gray-200 last:border-b-0 hover:bg-gray-50 transition-colors"
                     >
-                        <div className="text-gray-700 break-all"><Link href={`${process.env.NEXT_PUBLIC_HOST}/${link?.shortUrl}`} target="_blank">{link?.shortUrl}</Link></div>
-                        <div className="text-blue-600 break-all">{link?.url}</div>
-                        <div className="text-gray-700 break-all">{link?.totalClicks}</div>
-                        <div className="text-gray-700 break-all">{link?.lastClickedTime ?? '-'}</div>
-                        <div className="text-gray-700 break-all flex gap-2 justify-between align-text-top h-4"><Link href={`${process.env.NEXT_PUBLIC_HOST}/code/${link?.shortUrl}`}><FaEye /></Link><DeleteLink shortUrl={link?.shortUrl}/></div>
+                        <div className="text-gray-700 break-all px-2"><Link href={`${process.env.NEXT_PUBLIC_HOST}/${link?.shortUrl}`} target="_blank">{link?.shortUrl}</Link><CopyButton text={`${process.env.NEXT_PUBLIC_HOST}/${link?.shortUrl}`} /></div>
+                        <div className="text-blue-600 break-all px-2"><span>{link?.url.slice(0,50)}..</span><CopyButton text={link?.url} /></div>
+                        <div className="text-gray-700 break-all px-2">{link?.totalClicks}</div>
+                        <div className="text-gray-700 break-all px-2">{link?.lastClickedTime ?? '-'}</div>
+                        <div className="text-gray-700 break-all px-2 flex gap-2 justify-between align-text-top h-4"><Link href={`${process.env.NEXT_PUBLIC_HOST}/code/${link?.shortUrl}`}><FaEye /></Link><DeleteLink shortUrl={link?.shortUrl}/></div>
                     </div>
                 ))}
             </div>
