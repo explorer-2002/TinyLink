@@ -8,7 +8,6 @@ export default function LinksFilter() {
     const router = useRouter();
     const pathname = usePathname();
 
-    // Initialize state from URL or with an empty string, which is correct.
     const [urlFilter, setUrlFilter] = useState(searchParams.get('url') || '');
     const [shortUrlFilter, setShortUrlFilter] = useState(searchParams.get('shortUrl') || '');
 
@@ -17,7 +16,6 @@ export default function LinksFilter() {
         const handler = setTimeout(() => {
             const params = new URLSearchParams(searchParams);
 
-            // Set or delete the search parameters based on input
             if (urlFilter) {
                 params.set('url', urlFilter);
             } else {
@@ -30,13 +28,9 @@ export default function LinksFilter() {
                 params.delete('shortUrl');
             }
 
-            // Use replace to avoid polluting browser history.
-            // This triggers a re-render of the parent server component with new searchParams.
             router.replace(`${pathname}?${params.toString()}`);
-        }, 400); // Wait for 400ms after user stops typing
+        }, 400);
 
-        // Cleanup function to cancel the timeout if the component unmounts
-        // or if the dependencies change before the timeout is reached.
         return () => {
             clearTimeout(handler);
         };

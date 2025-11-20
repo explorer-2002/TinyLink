@@ -10,13 +10,7 @@ export async function GET(request) {
 
     const url = searchParams.get("url");
     const shortUrl = searchParams.get("shortUrl");
-    // const {url, shortUrl} = await ctx.params;
-    // const url = await searchParams.get('url');
-    console.log("Url: ", url);
-
-    // const shortUrl = await searchParams.get('shortUrl');
-    console.log("Short url: ", shortUrl);
-
+   
     try {
         const query = {};
         if (url !== "undefined" && url !== '') {
@@ -25,8 +19,6 @@ export async function GET(request) {
         if (shortUrl !== "undefined" && shortUrl !== '') {
             query.shortUrl = { $regex: shortUrl, $options: "i" };
         }
-
-        console.log(query);
 
         const links = await collection.find(query).toArray() || [];
         const plainLinks = await links.map(link => ({
@@ -41,7 +33,6 @@ export async function GET(request) {
     }
 
     catch (err) {
-        console.log("Fetch error: ", err);
         return Response.json({ success: false, error: true, message: "Error in fetching" },{status:500});
     }
 

@@ -9,13 +9,11 @@ export const generateShortCode = () => {
   const minLength = 6;
   const maxLength = 8;
 
-  // 1. Determine a random length between 6 and 8 (inclusive)
   const stringLength = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
 
   let result = '';
   const charactersLength = characters.length;
 
-  // 2. Build the string by picking random characters from the 'characters' pool
   for (let i = 0; i < stringLength; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }

@@ -19,10 +19,7 @@ const ShortenLink = () => {
             return true;
 
         const regex = /^[A-Za-z0-9]{6,8}$/;
-        if (!value) {
-            setShortUrlError("Short URL cannot be empty.");
-            return false;
-        }
+       
         if (!regex.test(value)) {
             setShortUrlError("Short URL must be 6-8 alphanumeric characters.");
             return false;

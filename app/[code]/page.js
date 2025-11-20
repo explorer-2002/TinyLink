@@ -12,7 +12,6 @@ export default async function Page({ params }) {
     const doc = await collection.findOne({ shortUrl: shortUrl });
     if (doc) {
         try {
-            console.log("Inside try");
             const lastClicked = new Date().toLocaleString();
 
             await collection.updateOne(
@@ -25,15 +24,11 @@ export default async function Page({ params }) {
         }
 
         catch (err) {
-            console.log("Err incrementing clicks: ", err);
+            console.error("Err incrementing clicks: ", err);
         }
 
-        redirect(doc.url);
+        redirect(doc?.url);
     }
-
-    // else {
-    //     redirect(process.env.NEXT_PUBLIC_HOST);
-    // }
 
     return notFound();
 }

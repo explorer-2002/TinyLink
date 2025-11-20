@@ -29,7 +29,6 @@ const DeleteLink = ({ shortUrl }) => {
             setIsLoading(false);
 
             router.refresh();
-            console.log("Deleted data: ", deletedData);
         }
 
         catch(err) {

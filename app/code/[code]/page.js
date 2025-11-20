@@ -1,5 +1,3 @@
-// app/components/LinksTable.jsx
-
 import Link from "next/link";
 import { IoMdArrowBack } from "react-icons/io";
 
@@ -19,7 +17,8 @@ async function getLink(shortUrl) {
 
         return res.json();
     } catch (error) {
-        console.error('Error fetching link:', error);
+        toast.error(error?.message);
+        console.error(error?.message);
         return [];
     }
 }
@@ -29,7 +28,7 @@ export default async function LinkStats({ params }) {
     const { code } = await params;
     const link = await getLink(code);
 
-    const data = link?.data; // contains url, shortUrl, totalClicks, lastClickedTime
+    const data = link?.data;
 
     // If no record found, show fallback message
     if (!data) {
@@ -45,17 +44,14 @@ export default async function LinkStats({ params }) {
     return (
         <div className="w-full max-w-3xl mx-auto p-8 space-y-8">
 
-            {/* Header */}
             <h1 className="text-3xl font-bold text-gray-900">
                 Link Details
             </h1>
 
             <h2><Link href={process.env.NEXT_PUBLIC_HOST}><IoMdArrowBack /></Link></h2>
 
-            {/* Details Card */}
             <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200 space-y-6">
 
-                {/* Actual URL */}
                 <div className="flex flex-col">
                     <span className="text-sm text-gray-500">Original URL</span>
                     <Link
@@ -63,11 +59,10 @@ export default async function LinkStats({ params }) {
                         target="_blank"
                         className="text-blue-600 break-all hover:underline text-lg"
                     >
-                        {data.url}
+                        {data?.url.slice(0,Math.max(75, data?.url?.length/2))}..
                     </Link>
                 </div>
 
-                {/* Short URL */}
                 <div className="flex flex-col">
                     <span className="text-sm text-gray-500">Short URL</span>
                     <Link
@@ -82,7 +77,6 @@ export default async function LinkStats({ params }) {
                 {/* Stats Grid */}
                 <div className="grid grid-cols-2 gap-6">
 
-                    {/* Total Clicks */}
                     <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 text-center">
                         <div className="text-4xl font-bold text-gray-800">
                             {data.totalClicks ?? 0}
@@ -92,7 +86,6 @@ export default async function LinkStats({ params }) {
                         </div>
                     </div>
 
-                    {/* Last Clicked Time */}
                     <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 text-center">
                         <div className="text-lg text-gray-800 font-medium">
                             {data.lastClickedTime || "—"}

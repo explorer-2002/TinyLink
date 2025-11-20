@@ -5,18 +5,14 @@ export async function GET(request,{ params }) {
     const db = client.db("tinyurl");
     const collection = db.collection("url");
 
-    console.log("Reached in the request");
-
     try {
         const {code} = await params;
-        console.log("Short url: ", code);
 
         const link = await collection.findOne({ shortUrl: code }) || {};
         return Response.json({ success: true, error: false, message: "Got Links", data: link },{status:200});
     }
 
     catch (err) {
-        console.log("Fetch error: ", err);
         return Response.json({ success: false, error: true, message: "Error in fetching" },{status:500});
     }
 
