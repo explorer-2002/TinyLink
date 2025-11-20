@@ -28,7 +28,7 @@ export default function LinksFilter() {
                 params.delete('shortUrl');
             }
 
-            router.replace(`${pathname}?${params.toString()}`);
+            router.replace(`${pathname}?${params.toString()}`, {scroll:false});
         }, 400);
 
         return () => {
@@ -39,7 +39,7 @@ export default function LinksFilter() {
 
 
     return (
-        <div className="mb-6 flex gap-4 p-4 bg-gray-50 border rounded-lg">
+        <div className="mb-6 w-full flex gap-4 p-4 bg-gray-50 border rounded-lg">
             <input
                 type="text"
                 placeholder="Filter by Target URL..."

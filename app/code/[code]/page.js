@@ -1,3 +1,4 @@
+import CopyButton from "@/app/components/CopyButton";
 import Link from "next/link";
 import { IoMdArrowBack } from "react-icons/io";
 
@@ -42,7 +43,7 @@ export default async function LinkStats({ params }) {
     }
 
     return (
-        <div className="w-full max-w-3xl mx-auto p-8 space-y-8">
+        <div className="w-full max-w-3xl mx-auto py-16 px-8 sm:p-8 space-y-8">
 
             <h1 className="text-3xl font-bold text-gray-900">
                 Link Details
@@ -54,24 +55,30 @@ export default async function LinkStats({ params }) {
 
                 <div className="flex flex-col">
                     <span className="text-sm text-gray-500">Original URL</span>
-                    <Link
-                        href={data.url}
-                        target="_blank"
-                        className="text-blue-600 break-all hover:underline text-lg"
-                    >
-                        {data?.url.slice(0,Math.max(75, data?.url?.length/2))}..
-                    </Link>
+                    <div className="flex">
+                        <Link
+                            href={data.url}
+                            target="_blank"
+                            className="text-blue-600 break-all hover:underline text-lg font-medium"
+                        >
+                            {data?.url?.slice(0, 50) ?? data?.url}..
+                        </Link>
+                        <CopyButton text={data?.url} />
+                    </div>
                 </div>
 
                 <div className="flex flex-col">
                     <span className="text-sm text-gray-500">Short URL</span>
-                    <Link
-                        href={`${process.env.NEXT_PUBLIC_HOST}/${data.shortUrl}`}
-                        target="_blank"
-                        className="text-indigo-600 font-semibold hover:underline text-xl"
-                    >
-                        {process.env.NEXT_PUBLIC_HOST}/{data.shortUrl}
-                    </Link>
+                    <div className="flex">
+                        <Link
+                            href={`${process.env.NEXT_PUBLIC_HOST}/${data.shortUrl}`}
+                            target="_blank"
+                            className="text-blue-600 font-medium hover:underline text-lg"
+                        >
+                            {process.env.NEXT_PUBLIC_HOST}/{data.shortUrl}
+                        </Link>
+                        <CopyButton text={data?.shortUrl} />
+                    </div>
                 </div>
 
                 {/* Stats Grid */}
@@ -99,3 +106,4 @@ export default async function LinkStats({ params }) {
         </div>
     );
 }
+

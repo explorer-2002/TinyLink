@@ -1,4 +1,5 @@
 import clientPromise from "@/lib/mongodb";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { notFound } from "next/navigation";
 
@@ -21,6 +22,8 @@ export default async function Page({ params }) {
                     $set: { lastClickedTime: lastClicked }
                 }
             );
+
+            revalidatePath('/');
         }
 
         catch (err) {

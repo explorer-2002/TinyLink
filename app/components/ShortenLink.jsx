@@ -80,7 +80,7 @@ const ShortenLink = () => {
                 setIsLoading(false)
             })
             .catch((error) => {
-                console.error("Catch Block: ", error);
+                console.error(error?.message);
                 toast.error(`${error?.message}`);
                 setIsLoading(false);
             });
@@ -90,7 +90,7 @@ const ShortenLink = () => {
     }
 
     return (
-        <div className='mx-auto w-[70%] max-w-[80%] bg-purple-100 my-16 p-8 rounded-lg flex flex-col gap-4'>
+        <div className='mx-auto sm:w-[70%] w-full bg-purple-100 my-16 p-8 rounded-lg flex flex-col gap-4'>
             <h1 className='font-bold text-2xl'>Generate your Short Urls</h1>
             <div className='flex flex-col gap-2'>
                 <input type="text" placeholder="Enter URL to shorten" className='p-4 rounded-md bg-white focus:outline-purple-600' value={url} onChange={(e) => setUrl(e.target.value)} />

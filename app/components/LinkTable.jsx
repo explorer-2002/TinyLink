@@ -69,14 +69,14 @@ export default async function LinksTable({ searchParams }) {
 
 
             {/* Grid Table Body */}
-            <div className="border border-gray-300 rounded-b-lg overflow-hidden">
+            <div className="border border-gray-300 rounded-b-lg overflow-hidden w-full">
                 {links?.data?.map((link, index) => (
                     <div
                         key={index}
-                        className="grid grid-cols-[1fr_2fr_1fr_1fr_0.8fr] gap-3 p-3 border-b border-gray-200 last:border-b-0 hover:bg-gray-50 transition-colors"
+                        className="grid sm:grid-cols-[1fr_2fr_1fr_1fr_0.8fr] gap-3 p-3 border-b border-gray-200 last:border-b-0 hover:bg-gray-50 transition-colors"
                     >
                         <div className="text-gray-700 break-all px-2"><Link href={`${process.env.NEXT_PUBLIC_HOST}/${link?.shortUrl}`} target="_blank">{link?.shortUrl}</Link><CopyButton text={`${process.env.NEXT_PUBLIC_HOST}/${link?.shortUrl}`} /></div>
-                        <div className="text-blue-600 break-all px-2"><span>{link?.url.slice(0,Math.max(50))}..</span><CopyButton text={link?.url} /></div>
+                        <div className="text-blue-600 break-all px-2"><span>{link?.url?.slice(0,Math.max(50)) ?? link?.url}..</span><CopyButton text={link?.url} /></div>
                         <div className="text-gray-700 break-all px-2">{link?.totalClicks}</div>
                         <div className="text-gray-700 break-all px-2">{link?.lastClickedTime ?? '-'}</div>
                         <div className="text-gray-700 break-all px-2 flex gap-2 justify-between align-text-top h-4"><Link href={`${process.env.NEXT_PUBLIC_HOST}/code/${link?.shortUrl}`}><FaEye /></Link><DeleteLink shortUrl={link?.shortUrl}/></div>
