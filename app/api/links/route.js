@@ -1,3 +1,4 @@
+import { generateShortCode } from "@/app/helper/generateShortCode";
 import clientPromise from "@/lib/mongodb";
 
 export async function GET(request) {
@@ -53,14 +54,20 @@ export async function POST(request) {
 
     const body = await request.json();
 
-    const doc = await collection.findOne({ shortUrl: body.shortUrl });
+    let {url, shortUrl} = body;
+
+    if(!shortUrl || shortUrl === "undefined" || shortUrl === ''){
+        shortUrl = generateShortCode();
+    }
+
+    const doc = await collection.findOne({ shortUrl: shortUrl, url: url });
     if (doc) {
         return Response.json({ success: false, error: true, message: "Short URL already exists" }, {status:409});
     }
 
     await collection.insertOne({
-        url: body.url,
-        shortUrl: body.shortUrl,
+        url: url,
+        shortUrl: shortUrl,
         totalClicks: 0
     });
 
