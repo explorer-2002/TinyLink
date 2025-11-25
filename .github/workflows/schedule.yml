@@ -1,0 +1,20 @@
+name: Run Every 45 Minutes
+
+on:
+  schedule:
+    # Runs at 45 minutes past every hour (e.g., 00:45, 01:45, 02:45, etc.)
+    - cron: '45 * * * *'
+  workflow_dispatch: # Allows manual triggering from GitHub UI
+
+jobs:
+  scheduled-job:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Run task
+        run: |
+          echo "Running at $(date)"
+          # Add your commands here
