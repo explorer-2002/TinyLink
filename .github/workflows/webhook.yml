@@ -1,0 +1,22 @@
+name: Webhook Triggered Workflow
+
+# Trigger on repository_dispatch event (custom webhook)
+on:
+  repository_dispatch:
+    types: [webhook-event, custom-action]
+
+jobs:
+  handle-webhook:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Print webhook payload
+        run: |
+          echo "Event type: ${{ github.event.action }}"
+          echo "Webhook payload:"
+          echo '${{ toJSON(github.event.client_payload) }}'
+      
+    
