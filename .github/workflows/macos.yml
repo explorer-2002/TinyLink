@@ -1,0 +1,14 @@
+name: Simple macOS Workflow
+
+on: [push]
+
+jobs:
+  run:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Run Node.js script
+      run: node -e "console.log('Hello from macOS!'); console.log('Node version:', process.version);"
