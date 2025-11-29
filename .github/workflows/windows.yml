@@ -1,0 +1,14 @@
+name: Simple Windows Workflow
+
+on: [push]
+
+jobs:
+  run:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Run Node.js script
+      run: node -e "console.log('Hello from Windows!'); console.log('Node version:', process.version);"
