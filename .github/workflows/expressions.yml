@@ -1,0 +1,68 @@
+name: Expressions Demo
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  expression-examples:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      # String expressions
+      - name: String operations
+        run: |
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Uppercase branch: ${{ toJSON(github.ref_name) }}"
+          echo "Contains 'main': ${{ contains(github.ref_name, 'main') }}"
+          echo "Starts with 'feat': ${{ startsWith(github.ref_name, 'feat') }}"
+      
+      # Conditional expressions
+      - name: Run on main only
+        if: github.ref == 'refs/heads/master'
+        run: echo "This runs only on master branch"
+      
+      - name: Run on PR only
+        if: github.event_name == 'pull_request'
+        run: echo "This runs only on pull requests"
+      
+      # Logical operators
+      - name: Complex condition
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: echo "Push to main branch"
+      
+      # Status check functions
+      - name: Always runs
+        if: always()
+        run: echo "Runs regardless of previous step failures"
+      
+      - name: Runs on failure
+        if: failure()
+        run: echo "This runs if any previous step failed"
+      
+      # Environment variables and expressions
+      - name: Set and use output
+        id: vars
+        run: |
+          echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "build_time=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
+      
+      - name: Use output from previous step
+        run: |
+          echo "Short SHA: ${{ steps.vars.outputs.sha_short }}"
+          echo "Build time: ${{ steps.vars.outputs.build_time }}"
+      
+      # JSON functions
+      - name: JSON operations
+        run: |
+          echo "Event JSON: ${{ toJSON(github.event) }}"
+          echo "Actor: ${{ github.actor }}"
+      
+      # Format expressions
+      - name: Format string
+        run: echo "Commit by ${{ github.actor }} at ${{ github.event.head_commit.timestamp }}"
