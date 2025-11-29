@@ -1,49 +1,18 @@
-name: Manual Workflow
+name: Conditional Workflow
 
 on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Deployment environment'
-        required: true
-        type: choice
-        options:
-          - development
-          - staging
-          - production
-      
-      version:
-        description: 'Version to deploy'
-        required: true
-        type: string
-      
-      notification_email:
-        description: 'Email for deployment notification (optional)'
-        required: false
-        type: string
-        default: ''
+  push:
+    branches:
+      - main
 
 jobs:
-  deploy:
+  conditional-job:
     runs-on: ubuntu-latest
+    if: github.event.head_commit.message contains '[run-workflow]'
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       
-      - name: Display inputs
-        run: |
-          echo "Environment: ${{ inputs.environment }}"
-          echo "Version: ${{ inputs.version }}"
-          echo "Notification Email: ${{ inputs.notification_email || 'Not provided' }}"
-      
-      - name: Run deployment
-        run: |
-          echo "Deploying version ${{ inputs.version }} to ${{ inputs.environment }}..."
-          # Add your deployment commands here
-      
-      - name: Send notification
-        if: inputs.notification_email != ''
-        run: |
-          echo "Sending notification to ${{ inputs.notification_email }}"
-          # Add your notification logic here
+      - name: Run conditional task
+        run: echo "Workflow executed!"

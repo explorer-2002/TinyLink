@@ -1,0 +1,49 @@
+name: Manual Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+      
+      version:
+        description: 'Version to deploy'
+        required: true
+        type: string
+      
+      notification_email:
+        description: 'Email for deployment notification (optional)'
+        required: false
+        type: string
+        default: ''
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Display inputs
+        run: |
+          echo "Environment: ${{ inputs.environment }}"
+          echo "Version: ${{ inputs.version }}"
+          echo "Notification Email: ${{ inputs.notification_email || 'Not provided' }}"
+      
+      - name: Run deployment
+        run: |
+          echo "Deploying version ${{ inputs.version }} to ${{ inputs.environment }}..."
+          # Add your deployment commands here
+      
+      - name: Send notification
+        if: inputs.notification_email != ''
+        run: |
+          echo "Sending notification to ${{ inputs.notification_email }}"
+          # Add your notification logic here
