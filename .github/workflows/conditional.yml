@@ -8,7 +8,7 @@ on:
 jobs:
   conditional-job:
     runs-on: ubuntu-latest
-    if: github.event.head_commit.message contains '[run-workflow]'
+    if: github.repository == 'explorer-2002/TinyLink'
     
     steps:
       - name: Checkout code
